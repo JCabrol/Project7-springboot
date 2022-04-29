@@ -3,12 +3,12 @@ package com.nnk.springboot.exceptions;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-abstract class SpringbootSubError {
+interface SpringbootSubError {
 }
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-class SpringbootValidationError extends SpringbootSubError {
+class SpringbootValidationError implements SpringbootSubError {
 
     private String message;
 

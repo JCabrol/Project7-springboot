@@ -51,7 +51,7 @@ CREATE TABLE Trade (
 
   PRIMARY KEY (trade_id)
 );
-DROP TABLE if EXISTS Curve_Point;
+DROP TABLE if EXISTS Curve_point;
 CREATE TABLE Curve_point (
   id tinyint(4) NOT NULL AUTO_INCREMENT,
   curve_id tinyint,

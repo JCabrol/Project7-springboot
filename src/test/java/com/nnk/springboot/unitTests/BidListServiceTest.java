@@ -1,7 +1,7 @@
 package com.nnk.springboot.unitTests;
 
 import com.nnk.springboot.domain.BidList;
-import com.nnk.springboot.domain.DTO.BidListDTO;
+import com.nnk.springboot.domain.dto.BidListDTO;
 import com.nnk.springboot.exceptions.ObjectNotFoundException;
 import com.nnk.springboot.repositories.BidListRepository;
 import com.nnk.springboot.services.BidListService;
