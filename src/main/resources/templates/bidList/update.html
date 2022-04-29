@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Home</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="container-fluid justify-content-center align-items-center">
+    <div class="container justify-content-center mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+            <h2>Update Bid</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <form th:action="@{/bidList/update/{id}(id=${bidList.bidListId})}" th:object="${bidList}" method="post"
+                  class="form-horizontal" style="width: 100%">
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <label for="inputAccount" class="form-label">Account</label>
+                        <input th:field="*{account}" type="text" class="form-control" id="inputAccount"
+                               placeholder="Account" th:value="${bidList.account}">
+                        <span class="text-danger" th:errors="*{account}"> </span>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <label for="inputType" class="form-label">Type</label>
+                        <input th:field="*{type}" type="text" class="form-control" id="inputType"
+                               placeholder="Type" th:value="${bidList.type}">
+                        <span class="text-danger" th:errors="*{type}"> </span>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3 mb-4">
+                    <div class="col-md-8">
+                        <label for="inputBidQuantity" class="form-label">Bid quantity</label>
+                        <input th:field="*{bidQuantity}" type="number" step="0.01" min=0 class="form-control"
+                               id="inputBidQuantity"
+                               placeholder="Bid quantity" th:value="${bidList.bidQuantity}">
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <a class="btn btn-danger" href="/bidList/list" role="button">Cancel</a>
+                        <button class="btn btn-primary" type="submit">Update BidList</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
