@@ -1,6 +1,6 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.DTO.BidListDTO;
+import com.nnk.springboot.domain.dto.BidListDTO;
 import com.nnk.springboot.services.BidListService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +18,18 @@ public class BidListController {
     @Autowired
     private BidListService bidListService;
 
+    private static final String redirectionToBidListHome = "redirect:/bidList/list";
+    private static final String attributeNameForView = "bidList";
     /**
      * Read - Get all bidLists registered in database
      *
      * @return - A view containing the list of all bidList
      */
     @ApiOperation(value = "Displays all bidList registered.")
-    @RequestMapping("/bidList/list")
+    @GetMapping("/bidList/list")
     public String home(Model model) {
         List<BidListDTO> list = bidListService.getAllBidList();
-        model.addAttribute("bidList", list);
+        model.addAttribute(attributeNameForView, list);
         return "bidList/list";
     }
 
@@ -40,7 +42,7 @@ public class BidListController {
     @GetMapping("/bidList/add")
     public String addBidForm(Model model) {
         BidListDTO bidListDTO = new BidListDTO();
-        model.addAttribute("bidList", bidListDTO);
+        model.addAttribute(attributeNameForView, bidListDTO);
         return "bidList/add";
     }
 
@@ -54,11 +56,11 @@ public class BidListController {
     @PostMapping("/bidList/validate")
     public String validate(@Valid @ModelAttribute("bidList") BidListDTO bidList, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("bidList", bidList);
+            model.addAttribute(attributeNameForView, bidList);
             return "bidList/add";
         }
         bidListService.createBidList(bidList);
-        return "redirect:/bidList/list";
+        return redirectionToBidListHome;
     }
 
     /**
@@ -71,7 +73,7 @@ public class BidListController {
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         BidListDTO bidListDTO = bidListService.getBidListDTO(id);
-        model.addAttribute("bidList", bidListDTO);
+        model.addAttribute(attributeNameForView, bidListDTO);
         return "bidList/update";
     }
 
@@ -88,11 +90,11 @@ public class BidListController {
                             BindingResult result, Model model) {
         if (result.hasErrors()) {
             bidList.setBidListId(id);
-            model.addAttribute("bidList", bidList);
+            model.addAttribute(attributeNameForView, bidList);
             return "bidList/update";
         }
         bidListService.updateBidList(id, bidList);
-        return "redirect:/bidList/list";
+        return redirectionToBidListHome;
     }
 
     /**
@@ -104,6 +106,6 @@ public class BidListController {
     @GetMapping("/bidList/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
         bidListService.deleteBidList(id);
-        return "redirect:/bidList/list";
+        return redirectionToBidListHome;
     }
 }

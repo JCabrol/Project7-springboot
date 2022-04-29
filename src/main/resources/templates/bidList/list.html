@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="utf-8"/>
     <title>Home</title>
@@ -18,7 +18,7 @@
                 <a href="/ruleName/list">Rule</a>
             </div>
             <div class="col-6 text-right">
-                Logged in user: <b th:inline="text" class="user"> [[${#httpServletRequest.remoteUser}]] </b>
+                Logged in user: <strong th:inline="text" class="user"> [[${#httpServletRequest.remoteUser}]] </strong>
                 <form th:action="@{/app-logout}" method="POST">
                     <input type="submit" value="Logout"/>
                 </form>
@@ -28,6 +28,7 @@
         <div class="row">
             <a href="/bidList/add" class="btn btn-primary btn-sm">Add New</a>
             <table class="table table-bordered">
+                <caption>Displayed list of all bidList registered</caption>
                 <thead>
                 <tr>
                     <th>Id</th>

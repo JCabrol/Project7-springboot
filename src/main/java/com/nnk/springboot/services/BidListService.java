@@ -1,7 +1,7 @@
 package com.nnk.springboot.services;
 
 import com.nnk.springboot.domain.BidList;
-import com.nnk.springboot.domain.DTO.BidListDTO;
+import com.nnk.springboot.domain.dto.BidListDTO;
 import com.nnk.springboot.exceptions.ObjectNotFoundException;
 
 import java.util.List;
