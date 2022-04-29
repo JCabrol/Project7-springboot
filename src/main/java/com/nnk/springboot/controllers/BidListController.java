@@ -18,8 +18,8 @@ public class BidListController {
     @Autowired
     private BidListService bidListService;
 
-    private final String redirectionToBidListHome = "redirect:/bidList/list";
-    private final String attributeNameForView = "bidList";
+    private static final String redirectionToBidListHome = "redirect:/bidList/list";
+    private static final String attributeNameForView = "bidList";
     /**
      * Read - Get all bidLists registered in database
      *
