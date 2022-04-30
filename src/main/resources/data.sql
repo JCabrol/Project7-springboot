@@ -105,5 +105,10 @@ INSERT INTO Curve_point (curve_id, term, value) VALUES
 (2,20.0,22.2),
 (3,30.0,33.3);
 
+INSERT INTO Rating (moodys_rating, sand_p_rating, fitch_rating, order_number) VALUES
+('moodysRating1','sandPRating1','fitchRating1',1),
+('moodysRating2','sandPRating2','fitchRating2',2),
+('moodysRating3','sandPRating3','fitchRating3',3);
+
 insert into Users(fullname, username, password, role) values("Administrator", "admin", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "ADMIN");
 insert into Users(fullname, username, password, role) values("User", "user", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "USER");
