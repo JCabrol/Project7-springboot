@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +31,7 @@ public class BidListServiceImpl implements BidListService {
     public BidList createBidList(BidListDTO bidListDTO) {
         log.debug("Function createBidList in BidListService begin.");
         BidList bidList = new BidList(bidListDTO.getAccount(), bidListDTO.getType(), bidListDTO.getBidQuantity());
+        bidList.setCreationDate(Timestamp.valueOf(LocalDateTime.now()));
         bidList = bidListRepository.save(bidList);
         log.info("New bidList with id number " + bidList.getBidListId() + " has been created.");
         log.debug("Function createBidList in BidListService ends without exception.");

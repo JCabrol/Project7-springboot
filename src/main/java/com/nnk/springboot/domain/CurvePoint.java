@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 
@@ -23,6 +24,7 @@ public class CurvePoint {
     private Integer id;
 
     @Column(name = "curve_id")
+    @NotNull(message = "Must not be null")
     private Integer curveId;
 
     @Column(name = "as_of_date")
@@ -37,4 +39,9 @@ public class CurvePoint {
     @Column(name = "creation_date")
     private Timestamp creationDate;
 
+    public CurvePoint(Integer curveId, Double term, Double value) {
+        this.curveId = curveId;
+        this.term = term;
+        this.value = value;
+    }
 }
