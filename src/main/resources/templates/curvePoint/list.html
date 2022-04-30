@@ -24,27 +24,27 @@
                 </form>
             </div>
         </div>
-        <div class="row mt-5"><h2>Bid List</h2></div>
+        <div class="row mt-5"><h2>Curve Point List</h2></div>
         <div class="row">
-            <a href="/bidList/add" class="btn btn-primary btn-sm">Add New</a>
-            <table aria-label="Displayed list of all bidLists registered" class="table table-bordered">
+            <a href="/curvePoint/add" class="btn btn-primary btn-sm">Add New</a>
+            <table aria-label="Displayed list of all curvePoints registered" class="table table-bordered">
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Account</th>
-                    <th>Type</th>
-                    <th>Bid Quantity</th>
+                    <th>CurvePointId</th>
+                    <th>Term</th>
+                    <th>Value</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="bid : ${bidList}">
-                    <td th:text="${bid.bidListId}"></td>
-                    <td th:text="${bid.account}"></td>
-                    <td th:text="${bid.type}"></td>
-                    <td th:text="${bid.bidQuantity}"></td>
-                    <td><a th:href="@{'/bidList/update/'+${bid.bidListId}}" class="link-primary">Edit</a>&nbsp;|&nbsp;
-                        <a th:href="@{'/bidList/delete/'+${bid.bidListId}}" class="link-primary">Delete</a></td>
+                <tr th:each="curvePoint : ${curvePointList}">
+                    <td th:text="${curvePoint.id}"></td>
+                    <td th:text="${curvePoint.curveId}"></td>
+                    <td th:text="${curvePoint.term}"></td>
+                    <td th:text="${curvePoint.value}"></td>
+                    <td><a th:href="@{'/curvePoint/update/'+${curvePoint.id}}" class="link-primary">Edit</a>&nbsp;|&nbsp;
+                        <a th:href="@{'/curvePoint/delete/'+${curvePoint.id}}" class="link-primary">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
