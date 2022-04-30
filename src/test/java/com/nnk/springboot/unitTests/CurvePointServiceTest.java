@@ -70,7 +70,8 @@ public class CurvePointServiceTest {
             assertEquals(curveId, arg.getValue().getCurveId());
             assertEquals(term, arg.getValue().getTerm());
             assertEquals(value, arg.getValue().getValue());
-            assertThat(arg.getValue().getCreationDate()).isBetween(before, after);
+            assertThat(arg.getValue().getCreationDate()).isBeforeOrEqualTo(after);
+            assertThat(arg.getValue().getCreationDate()).isAfterOrEqualTo(before);
             assertNull(arg.getValue().getAsOfDate());
         }
     }

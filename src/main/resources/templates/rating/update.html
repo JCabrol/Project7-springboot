@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Home</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="container-fluid justify-content-center align-items-center">
+    <div class="container justify-content-center mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <h2>Update Rating</h2>
+            </div>
+        </div>
+        <div class="row">
+            <form th:action="@{/rating/update/{id}(id=${rating.id})}" th:object="${rating}" method="post"
+                  class="form-horizontal" style="width: 100%">
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <label for="inputMoodysRating" class="form-label">Moodys Rating</label>
+                        <input th:field="*{moodysRating}" type="text" class="form-control" id="inputMoodysRating"
+                               placeholder="Moodys Rating" th:value="${rating.moodysRating}">
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <label for="inputSandPRating" class="form-label">Sand P Rating</label>
+                        <input th:field="*{sandPRating}" type="text" class="form-control" id="inputSandPRating"
+                               placeholder="Sand P Rating" th:value="${rating.sandPRating}">
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <label for="inputFitchRating" class="form-label">Fitch Rating</label>
+                        <input th:field="*{fitchRating}" type="text" class="form-control" id="inputFitchRating"
+                               placeholder="Fitch Rating" th:value="${rating.fitchRating}">
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3 mb-4">
+                    <div class="col-md-8">
+                        <label for="inputOrderNumber" class="form-label">Order Number</label>
+                        <input th:field="*{orderNumber}" type="number" class="form-control"
+                               id="inputOrderNumber"
+                               placeholder="Order Number" th:value="${rating.orderNumber}">
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <a class="btn btn-danger" href="/rating/list" role="button">Cancel</a>
+                        <button class="btn btn-primary" type="submit">Update Rating</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
