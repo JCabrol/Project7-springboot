@@ -100,5 +100,10 @@ INSERT INTO Bid_list (account, type, bid_quantity) VALUES
 ('account2','type2',20.0),
 ('account3','type3',30.0);
 
+INSERT INTO Curve_point (curve_id, term, value) VALUES
+(1,10.0,11.1),
+(2,20.0,22.2),
+(3,30.0,33.3);
+
 insert into Users(fullname, username, password, role) values("Administrator", "admin", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "ADMIN");
 insert into Users(fullname, username, password, role) values("User", "user", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "USER");

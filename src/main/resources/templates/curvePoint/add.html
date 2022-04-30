@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Home</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="container-fluid justify-content-center align-items-center">
+    <div class="container justify-content-center mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <h2>Add New Curve Point</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <form th:action="@{/curvePoint/validate}" th:object="${curvePoint}" method="post" class="form-horizontal"
+                  style="width: 100%">
+
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <label for="inputCurveId" class="form-label">Curve Id</label>
+                        <input th:field="*{curveId}" type="number" class="form-control" id="inputCurveId"
+                               placeholder="Curve Id">
+                        <span class="text-danger" th:errors="*{curveId}"> </span>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <label for="inputTerm" class="form-label">Term</label>
+                        <input th:field="*{term}" type="number" step="0.01" class="form-control" id="inputTerm"
+                               placeholder="Term">
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3 mb-4">
+                    <div class="col-md-8">
+                        <label for="inputValue" class="form-label">Value</label>
+                        <input th:field="*{value}" type="number" step="0.01" class="form-control"
+                               id="inputValue"
+                               placeholder="Value">
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <a class="btn btn-danger" href="/curvePoint/list" role="button">Cancel</a>
+                        <button class="btn btn-primary" type="submit">Add CurvePoint</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
