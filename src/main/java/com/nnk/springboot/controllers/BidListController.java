@@ -47,7 +47,7 @@ public class BidListController {
     }
 
     /**
-     * Create - Add a new person
+     * Create - Add a new bidList
      *
      * @param bidList: A bidListDTO object containing information to create bidList
      * @return the bidList form page if there is validation error, the bidList list page if the bidList is correctly created
@@ -78,7 +78,7 @@ public class BidListController {
     }
 
     /**
-     * Update - Update an existing person
+     * Update - Update an existing bidList
      *
      * @param id     - An Integer which is the id of the bidList to update
      * @param bidList - A BidListDTO object containing information to update

@@ -110,5 +110,10 @@ INSERT INTO Rating (moodys_rating, sand_p_rating, fitch_rating, order_number) VA
 ('moodysRating2','sandPRating2','fitchRating2',2),
 ('moodysRating3','sandPRating3','fitchRating3',3);
 
+INSERT INTO Rule_name (name, description, json, template,sql_str,sql_part) VALUES
+('name1','description1','json1','template1','sqlStr1','sqlPart1'),
+('name2','description2','json2','template2','sqlStr2','sqlPart2'),
+('name3','description3','json3','template3','sqlStr3','sqlPart3');
+
 insert into Users(fullname, username, password, role) values("Administrator", "admin", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "ADMIN");
 insert into Users(fullname, username, password, role) values("User", "user", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "USER");
