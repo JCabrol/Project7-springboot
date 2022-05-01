@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Home</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="container-fluid justify-content-center align-items-center">
+    <div class="container justify-content-center mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <h2>Add Rule Name</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <form th:action="@{/ruleName/validate}" th:object="${ruleName}" method="post" class="form-horizontal"
+                  style="width: 100%">
+
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <label for="inputName" class="form-label">Name</label>
+                        <input th:field="*{name}" type="text" class="form-control" id="inputName"
+                               placeholder="Name">
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <label for="inputDescription" class="form-label">Description</label>
+                        <input th:field="*{description}" type="text" class="form-control" id="inputDescription"
+                               placeholder="Description">
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <label for="inputJson" class="form-label">Json</label>
+                        <input th:field="*{json}" type="text" class="form-control" id="inputJson"
+                               placeholder="Json">
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <label for="inputTemplate" class="form-label">Template</label>
+                        <input th:field="*{template}" type="text" class="form-control" id="inputTemplate"
+                               placeholder="Template">
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <label for="inputSqlStr" class="form-label">Sql Str</label>
+                        <input th:field="*{sqlStr}" type="text" class="form-control" id="inputSqlStr"
+                               placeholder="Sql Str">
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3 mb-4">
+                    <div class="col-md-8">
+                        <label for="inputSqlPart" class="form-label">Sql Part</label>
+                        <input th:field="*{sqlPart}" type="text" class="form-control"
+                               id="inputSqlPart"
+                               placeholder="Sql Part">
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <a class="btn btn-danger" href="/ruleName/list" role="button">Cancel</a>
+                        <button class="btn btn-primary" type="submit">Add RuleName</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

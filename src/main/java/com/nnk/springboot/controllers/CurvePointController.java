@@ -50,7 +50,7 @@ public class CurvePointController {
     }
 
     /**
-     * Create - Add a new person
+     * Create - Add a new curvePoint
      *
      * @param curvePoint: A curvePointDTO object containing information to create curvePoint
      * @return the curvePoint form page if there is validation error, the curvePoint list page if the curvePoint is correctly created
@@ -81,7 +81,7 @@ public class CurvePointController {
     }
 
     /**
-     * Update - Update an existing person
+     * Update - Update an existing CurvePoint
      *
      * @param id     - An Integer which is the id of the curvePoint to update
      * @param curvePoint - A CurvePointDTO object containing information to update
