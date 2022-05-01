@@ -23,6 +23,7 @@ public class RatingController {
 
     private static final String RATING_HOME_REDIRECTION = "redirect:/rating/list";
     private static final String VIEW_ATTRIBUTE_NAME = "rating";
+
     /**
      * Read - Get all ratings registered in database
      *
@@ -50,7 +51,7 @@ public class RatingController {
     }
 
     /**
-     * Create - Add a new person
+     * Create - Add a new rating
      *
      * @param rating: A ratingDTO object containing information to create rating
      * @return the rating form page if there is validation error, the rating list page if the rating is correctly created
@@ -58,10 +59,6 @@ public class RatingController {
     @ApiOperation(value = "Add a rating.")
     @PostMapping("/rating/validate")
     public String validate(@Valid @ModelAttribute("rating") RatingDTO rating, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute(VIEW_ATTRIBUTE_NAME, rating);
-            return "rating/add";
-        }
         ratingService.createRating(rating);
         return RATING_HOME_REDIRECTION;
     }
@@ -81,7 +78,7 @@ public class RatingController {
     }
 
     /**
-     * Update - Update an existing person
+     * Update - Update an existing rating
      *
      * @param id     - An Integer which is the id of the rating to update
      * @param rating - A RatingDTO object containing information to update
@@ -91,11 +88,6 @@ public class RatingController {
     @PostMapping("/rating/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("rating") RatingDTO rating,
                             BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            rating.setId(id);
-            model.addAttribute(VIEW_ATTRIBUTE_NAME, rating);
-            return "rating/update";
-        }
         ratingService.updateRating(id, rating);
         return RATING_HOME_REDIRECTION;
     }
