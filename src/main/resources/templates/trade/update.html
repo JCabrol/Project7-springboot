@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Home</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="container-fluid justify-content-center align-items-center">
+    <div class="container justify-content-center mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+            <h2>Update Trade</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <form th:action="@{/trade/update/{id}(id=${trade.tradeId})}" th:object="${trade}" method="post"
+                  class="form-horizontal" style="width: 100%">
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <label for="inputAccount" class="form-label">Account</label>
+                        <input th:field="*{account}" type="text" class="form-control" id="inputAccount"
+                               placeholder="Account" th:value="${trade.account}">
+                        <span class="text-danger" th:errors="*{account}"> </span>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <label for="inputType" class="form-label">Type</label>
+                        <input th:field="*{type}" type="text" class="form-control" id="inputType"
+                               placeholder="Type" th:value="${trade.type}">
+                        <span class="text-danger" th:errors="*{type}"> </span>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3 mb-4">
+                    <div class="col-md-8">
+                        <label for="inputBuyQuantity" class="form-label">Buy quantity</label>
+                        <input th:field="*{buyQuantity}" type="number" step="0.01" min=0 class="form-control"
+                               id="inputBuyQuantity"
+                               placeholder="Buy quantity" th:value="${trade.buyQuantity}">
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <a class="btn btn-danger" href="/trade/list" role="button">Cancel</a>
+                        <button class="btn btn-primary" type="submit">Update Trade</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
