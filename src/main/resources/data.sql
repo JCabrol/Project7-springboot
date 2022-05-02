@@ -25,6 +25,7 @@ CREATE TABLE Bid_list (
 
   PRIMARY KEY (bid_list_id)
 );
+
 DROP TABLE if EXISTS Trade;
 CREATE TABLE Trade (
   trade_id tinyint(4) NOT NULL AUTO_INCREMENT,
@@ -51,6 +52,7 @@ CREATE TABLE Trade (
 
   PRIMARY KEY (trade_id)
 );
+
 DROP TABLE if EXISTS Curve_point;
 CREATE TABLE Curve_point (
   id tinyint(4) NOT NULL AUTO_INCREMENT,
@@ -62,6 +64,7 @@ CREATE TABLE Curve_point (
 
   PRIMARY KEY (id)
 );
+
 DROP TABLE if EXISTS Rating;
 CREATE TABLE Rating (
   id tinyint(4) NOT NULL AUTO_INCREMENT,
@@ -72,6 +75,7 @@ CREATE TABLE Rating (
 
   PRIMARY KEY (id)
 );
+
 DROP TABLE if EXISTS Rule_name;
 CREATE TABLE Rule_name (
   id tinyint(4) NOT NULL AUTO_INCREMENT,
@@ -114,6 +118,12 @@ INSERT INTO Rule_name (name, description, json, template,sql_str,sql_part) VALUE
 ('name1','description1','json1','template1','sqlStr1','sqlPart1'),
 ('name2','description2','json2','template2','sqlStr2','sqlPart2'),
 ('name3','description3','json3','template3','sqlStr3','sqlPart3');
+
+INSERT INTO Trade (account, type, buy_quantity) VALUES
+('account1','type1',10.0),
+('account2','type2',20.0),
+('account3','type3',30.0);
+
 
 insert into Users(fullname, username, password, role) values("Administrator", "admin", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "ADMIN");
 insert into Users(fullname, username, password, role) values("User", "user", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "USER");
