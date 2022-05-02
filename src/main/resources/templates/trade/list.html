@@ -12,27 +12,27 @@
 
         <header th:insert="navigation.html :: navigationBar"></header>
 
-        <div class="row mt-5"><h2>Bid List</h2></div>
+        <div class="row mt-5"><h2>Trade List</h2></div>
         <div class="row">
-            <a href="/bidList/add" class="btn btn-primary btn-sm">Add New</a>
-            <table aria-label="Displayed list of all bidLists registered" class="table table-bordered">
+            <a href="/trade/add" class="btn btn-primary btn-sm">Add New</a>
+            <table aria-label="Displayed list of all trades registered" class="table table-bordered">
                 <thead>
                 <tr>
                     <th>Id</th>
                     <th>Account</th>
                     <th>Type</th>
-                    <th>Bid Quantity</th>
+                    <th>Buy Quantity</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="bid : ${bidList}">
-                    <td th:text="${bid.bidListId}"></td>
-                    <td th:text="${bid.account}"></td>
-                    <td th:text="${bid.type}"></td>
-                    <td th:text="${bid.bidQuantity}"></td>
-                    <td><a th:href="@{'/bidList/update/'+${bid.bidListId}}" class="link-primary">Edit</a>&nbsp;|&nbsp;
-                        <a th:href="@{'/bidList/delete/'+${bid.bidListId}}" class="link-primary">Delete</a></td>
+                <tr th:each="trade : ${tradeList}">
+                    <td th:text="${trade.tradeId}"></td>
+                    <td th:text="${trade.account}"></td>
+                    <td th:text="${trade.type}"></td>
+                    <td th:text="${trade.buyQuantity}"></td>
+                    <td><a th:href="@{'/trade/update/'+${trade.tradeId}}" class="link-primary">Edit</a>&nbsp;|&nbsp;
+                        <a th:href="@{'/trade/delete/'+${trade.tradeId}}" class="link-primary">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
