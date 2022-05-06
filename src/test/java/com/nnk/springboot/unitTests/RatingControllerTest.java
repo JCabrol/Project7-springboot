@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -23,12 +24,14 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Tag("ratingTests")
 @SpringBootTest
+@WithMockUser(username = "user", password = "123456Aa*", roles = "USER")
 @AutoConfigureMockMvc
 public class RatingControllerTest {
 
@@ -107,7 +110,7 @@ public class RatingControllerTest {
             String sandPRating = "sandPRating";
             String fitchRating = "fitchRating";
             Integer orderNumber = 1;
-            Rating rating = new Rating(moodysRating, sandPRating, fitchRating,orderNumber);
+            Rating rating = new Rating(moodysRating, sandPRating, fitchRating, orderNumber);
             final ArgumentCaptor<RatingDTO> arg = ArgumentCaptor.forClass(RatingDTO.class);
             when(ratingService.createRating(any(RatingDTO.class))).thenReturn(rating);
             RequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -132,6 +135,32 @@ public class RatingControllerTest {
             assertEquals(fitchRating, arg.getValue().getFitchRating());
             assertEquals(orderNumber, arg.getValue().getOrderNumber());
         }
+
+        @DisplayName("GIVEN a ratingDTO with information over authorized size" +
+                "WHEN the uri \"/rating/validate\" is called " +
+                "THEN there are 3 errors and the page \"add\" is returned.")
+        @Test
+        void validateTooLongInformationTest() throws Exception {
+            //GIVEN
+            // a ratingDTO with information over authorized size
+            RequestBuilder requestBuilder = MockMvcRequestBuilders
+                    .post("/rating/validate")
+                    .param("moodysRating", "moodysRating123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890")
+                    .param("sandPRating", "sandPRating123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890")
+                    .param("fitchRating", "fitchRating123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+            // WHEN
+            //the uri "/rating/validate" is called,
+            mockMvc.perform(requestBuilder)
+                    //THEN
+                    // there are 3 errors and the page "add" is returned
+                    .andExpect(status().isOk())
+                    .andExpect(model().attributeExists("rating"))
+                    .andExpect(model().hasErrors())
+                    .andExpect(model().attributeErrorCount("rating", 3))
+                    .andExpect(view().name("rating/add"));
+            //the expected methods have been called with expected arguments
+            verify(ratingService, Mockito.times(0)).createRating(any(RatingDTO.class));
+        }
     }
 
     @Nested
@@ -151,7 +180,7 @@ public class RatingControllerTest {
             String fitchRating = "fitchRating";
             Integer orderNumber = 1;
             int id = 1;
-            RatingDTO ratingDTO = new RatingDTO(id,moodysRating,sandPRating, fitchRating,orderNumber);
+            RatingDTO ratingDTO = new RatingDTO(id, moodysRating, sandPRating, fitchRating, orderNumber);
             when(ratingService.getRatingDTO(id)).thenReturn(ratingDTO);
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .get("/rating/update/{id}", id);
@@ -211,7 +240,7 @@ public class RatingControllerTest {
             String fitchRating = "fitchRating";
             Integer orderNumber = 1;
             int id = 1;
-            Rating rating = new Rating(id,moodysRating,sandPRating, fitchRating,orderNumber);
+            Rating rating = new Rating(id, moodysRating, sandPRating, fitchRating, orderNumber);
             final ArgumentCaptor<RatingDTO> arg = ArgumentCaptor.forClass(RatingDTO.class);
             when(ratingService.updateRating(eq(id), any(RatingDTO.class))).thenReturn(rating);
             RequestBuilder requestBuilder = MockMvcRequestBuilders

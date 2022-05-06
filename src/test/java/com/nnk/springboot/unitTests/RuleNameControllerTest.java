@@ -139,6 +139,8 @@ public class RuleNameControllerTest {
             assertEquals(sqlStr, arg.getValue().getSqlStr());
             assertEquals(sqlPart, arg.getValue().getSqlPart());
         }
+
+
     }
 
     @Nested

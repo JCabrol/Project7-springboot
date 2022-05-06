@@ -22,6 +22,7 @@
                         <label for="inputName" class="form-label">Name</label>
                         <input th:field="*{name}" type="text" class="form-control" id="inputName"
                                placeholder="Name" th:value="${ruleName.name}">
+                        <span class="text-danger" th:errors="*{name}"> </span>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-3">
@@ -29,6 +30,7 @@
                         <label for="inputDescription" class="form-label">Description</label>
                         <input th:field="*{description}" type="text" class="form-control" id="inputDescription"
                                placeholder="Description" th:value="${ruleName.description}">
+                        <span class="text-danger" th:errors="*{description}"> </span>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-3">
@@ -36,6 +38,7 @@
                         <label for="inputJson" class="form-label">Json</label>
                         <input th:field="*{json}" type="text" class="form-control" id="inputJson"
                                placeholder="Json" th:value="${ruleName.json}">
+                        <span class="text-danger" th:errors="*{json}"> </span>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-3">
@@ -43,6 +46,7 @@
                         <label for="inputTemplate" class="form-label">Template</label>
                         <input th:field="*{template}" type="text" class="form-control" id="inputTemplate"
                                placeholder="Template" th:value="${ruleName.template}">
+                        <span class="text-danger" th:errors="*{template}"> </span>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-3">
@@ -50,6 +54,7 @@
                         <label for="inputSqlStr" class="form-label">Sql Str</label>
                         <input th:field="*{sqlStr}" type="text" class="form-control" id="inputSqlStr"
                                placeholder="Sql Str" th:value="${ruleName.sqlStr}">
+                        <span class="text-danger" th:errors="*{sqlStr}"> </span>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-3 mb-4">
@@ -58,6 +63,7 @@
                         <input th:field="*{sqlPart}" type="text" class="form-control"
                                id="inputSqlPart"
                                placeholder="Sql Part" th:value="${ruleName.SqlPart}">
+                        <span class="text-danger" th:errors="*{sqlPart}"> </span>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-3">
