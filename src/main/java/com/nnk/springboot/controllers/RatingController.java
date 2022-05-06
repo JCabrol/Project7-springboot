@@ -59,6 +59,10 @@ public class RatingController {
     @ApiOperation(value = "Add a rating.")
     @PostMapping("/rating/validate")
     public String validate(@Valid @ModelAttribute("rating") RatingDTO rating, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute(VIEW_ATTRIBUTE_NAME, rating);
+            return "rating/add";
+        }
         ratingService.createRating(rating);
         return RATING_HOME_REDIRECTION;
     }
@@ -88,6 +92,11 @@ public class RatingController {
     @PostMapping("/rating/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("rating") RatingDTO rating,
                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            rating.setId(id);
+            model.addAttribute(VIEW_ATTRIBUTE_NAME, rating);
+            return "rating/update";
+        }
         ratingService.updateRating(id, rating);
         return RATING_HOME_REDIRECTION;
     }

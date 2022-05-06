@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -22,12 +23,15 @@ public class Rating {
     private Integer id;
 
     @Column(name = "moodys_rating")
+    @Size(max = 125, message = "Moodys rating shouldn't be over 125 characters")
     private String moodysRating;
 
     @Column(name = "sand_p_rating")
+    @Size(max = 125, message = "Sand p rating shouldn't be over 125 characters")
     private String sandPRating;
 
     @Column(name = "fitch_rating")
+    @Size(max = 125, message = "Fitch rating shouldn't be over 125 characters")
     private String fitchRating;
 
     @Column(name = "order_number")

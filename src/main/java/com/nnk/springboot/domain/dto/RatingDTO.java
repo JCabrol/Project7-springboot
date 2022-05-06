@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Size;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,10 +16,13 @@ public class RatingDTO {
 
     private Integer id;
 
+    @Size(max = 125, message = "Moodys rating shouldn't be over 125 characters")
     private String moodysRating;
 
+    @Size(max = 125, message = "Sand p rating shouldn't be over 125 characters")
     private String sandPRating;
 
+    @Size(max = 125, message = "Fitch rating shouldn't be over 125 characters")
     private String fitchRating;
 
     private Integer orderNumber;
