@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -22,21 +23,27 @@ public class RuleName {
     private Integer id;
 
     @Column(name = "name")
+    @Size(max = 125, message = "Name shouldn't be over 125 characters")
     private String name;
 
     @Column(name = "description")
+    @Size(max = 125, message = "Description shouldn't be over 125 characters")
     private String description;
 
     @Column(name = "json")
+    @Size(max = 125, message = "Json shouldn't be over 125 characters")
     private String json;
 
     @Column(name = "template")
+    @Size(max = 512, message = "Template shouldn't be over 512 characters")
     private String template;
 
     @Column(name = "sql_str")
+    @Size(max = 125, message = "Sql str shouldn't be over 125 characters")
     private String sqlStr;
 
     @Column(name = "sql_part")
+    @Size(max = 125, message = "Sql part shouldn't be over 125 characters")
     private String sqlPart;
 
     public RuleName(String name, String description, String json, String template, String sqlStr, String sqlPart) {

@@ -59,6 +59,10 @@ public class RuleNameController {
     @ApiOperation(value = "Add a ruleName.")
     @PostMapping("/ruleName/validate")
     public String validate(@Valid @ModelAttribute("ruleName") RuleNameDTO ruleName, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute(VIEW_ATTRIBUTE_NAME, ruleName);
+            return "ruleName/add";
+        }
         ruleNameService.createRuleName(ruleName);
         return RULE_NAME_HOME_REDIRECTION;
     }
@@ -88,6 +92,11 @@ public class RuleNameController {
     @PostMapping("/ruleName/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("ruleName") RuleNameDTO ruleName,
                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            ruleName.setId(id);
+            model.addAttribute(VIEW_ATTRIBUTE_NAME, ruleName);
+            return "ruleName/update";
+        }
         ruleNameService.updateRuleName(id, ruleName);
         return RULE_NAME_HOME_REDIRECTION;
     }

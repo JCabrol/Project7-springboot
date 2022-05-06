@@ -25,6 +25,7 @@
                         <label for="inputMoodysRating" class="form-label">Moodys Rating</label>
                         <input th:field="*{moodysRating}" type="text" class="form-control" id="inputMoodysRating"
                                placeholder="Moodys Rating">
+                        <span class="text-danger" th:errors="*{moodysRating}"> </span>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-3">
@@ -32,6 +33,7 @@
                         <label for="inputSandPRating" class="form-label">Sand P Rating</label>
                         <input th:field="*{sandPRating}" type="text" class="form-control" id="inputSandPRating"
                                placeholder="Sand P Rating">
+                        <span class="text-danger" th:errors="*{sandPRating}"> </span>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-3">
@@ -39,12 +41,13 @@
                         <label for="inputFitchRating" class="form-label">Fitch Rating</label>
                         <input th:field="*{fitchRating}" type="text" class="form-control" id="inputFitchRating"
                                placeholder="Fitch Rating">
+                        <span class="text-danger" th:errors="*{fitchRating}"> </span>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-3 mb-4">
                     <div class="col-md-8">
                         <label for="inputOrderNumber" class="form-label">Order Number</label>
-                        <input th:field="*{orderNumber}" type="number" class="form-control"
+                        <input th:field="*{orderNumber}" type="number" min=0 class="form-control"
                                id="inputOrderNumber"
                                placeholder="Order Number">
                     </div>
