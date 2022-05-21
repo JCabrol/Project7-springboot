@@ -1,8 +1,5 @@
 package com.nnk.springboot.validation;
 
-import com.nnk.springboot.domain.dto.UserDTO;
-
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -11,7 +8,7 @@ public class PasswordValidator implements ConstraintValidator<ValidPassword, Str
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
-        if (value.equals("")) {
+        if (value == null || value.equals("")) {
             return true;
         } else {
             boolean sizeOk = value.length() >= 8;

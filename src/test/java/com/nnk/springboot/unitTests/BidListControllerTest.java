@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,10 +27,12 @@ import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Tag("bidListTests")
 @SpringBootTest
+@WithMockUser(username = "user", password = "123456Aa*", authorities = "USER")
 @AutoConfigureMockMvc
 public class BidListControllerTest {
 
@@ -111,9 +115,11 @@ public class BidListControllerTest {
             when(bidListService.createBidList(any(BidListDTO.class))).thenReturn(bidList);
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/bidList/validate")
+                    .with(csrf())
                     .param("account", account)
                     .param("type", type)
-                    .param("bidQuantity", String.valueOf(bidQuantity));
+                    .param("bidQuantity", String.valueOf(bidQuantity))
+                    .session(new MockHttpSession());
             // WHEN
             //the uri "/bidList/validate" is called,
             mockMvc.perform(requestBuilder)
@@ -138,7 +144,8 @@ public class BidListControllerTest {
             //GIVEN
             // a bidListDTO without required information
             RequestBuilder requestBuilder = MockMvcRequestBuilders
-                    .post("/bidList/validate");
+                    .post("/bidList/validate")
+                    .with(csrf());
             // WHEN
             //the uri "/bidList/validate" is called,
             mockMvc.perform(requestBuilder)
@@ -162,6 +169,7 @@ public class BidListControllerTest {
             // a bidListDTO with information over authorized size
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/bidList/validate")
+                    .with(csrf())
                     .param("account", "account123456789012345678901234567890")
                     .param("type", "type123456789012345678901234567890");
             // WHEN
@@ -259,6 +267,7 @@ public class BidListControllerTest {
             when(bidListService.updateBidList(eq(id), any(BidListDTO.class))).thenReturn(bidList);
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/bidList/update/{id}", id)
+                    .with(csrf())
                     .param("account", account)
                     .param("type", type)
                     .param("bidQuantity", String.valueOf(bidQuantity));
@@ -286,7 +295,8 @@ public class BidListControllerTest {
             // missing information
             int id = 1;
             RequestBuilder requestBuilder = MockMvcRequestBuilders
-                    .post("/bidList/update/{id}", id);
+                    .post("/bidList/update/{id}", id)
+                    .with(csrf());
             // WHEN
             //the uri "/bidList/update/{id}" is called with "post" request,
             mockMvc.perform(requestBuilder)
@@ -311,6 +321,7 @@ public class BidListControllerTest {
             int id = 1;
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/bidList/update/{id}", id)
+                    .with(csrf())
                     .param("account", "account012345678901234567890123456789")
                     .param("type", "type012345678901234567890123456789");
             // WHEN

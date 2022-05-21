@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,10 +26,12 @@ import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Tag("curvePointTests")
 @SpringBootTest
+@WithMockUser(username = "user", password = "123456Aa*", authorities = "USER")
 @AutoConfigureMockMvc
 public class CurvePointControllerTest {
 
@@ -111,6 +114,7 @@ public class CurvePointControllerTest {
             when(curvePointService.createCurvePoint(any(CurvePointDTO.class))).thenReturn(curvePoint);
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/curvePoint/validate")
+                    .with(csrf())
                     .param("curveId", String.valueOf(curveId))
                     .param("term", String.valueOf(term))
                     .param("value", String.valueOf(value));
@@ -138,7 +142,8 @@ public class CurvePointControllerTest {
             //GIVEN
             // a curvePointDTO without required information
             RequestBuilder requestBuilder = MockMvcRequestBuilders
-                    .post("/curvePoint/validate");
+                    .post("/curvePoint/validate")
+                    .with(csrf()) ;
             // WHEN
             //the uri "/curvePoint/validate" is called,
             mockMvc.perform(requestBuilder)
@@ -234,6 +239,7 @@ public class CurvePointControllerTest {
             when(curvePointService.updateCurvePoint(eq(id), any(CurvePointDTO.class))).thenReturn(curvePoint);
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/curvePoint/update/{id}", id)
+                    .with(csrf())
                     .param("curveId", String.valueOf(curveId))
                     .param("term", String.valueOf(term))
                     .param("value", String.valueOf(value));
@@ -261,7 +267,8 @@ public class CurvePointControllerTest {
             // missing information
             int id = 1;
             RequestBuilder requestBuilder = MockMvcRequestBuilders
-                    .post("/curvePoint/update/{id}", id);
+                    .post("/curvePoint/update/{id}", id)
+                    .with(csrf());
             // WHEN
             //the uri "/curvePoint/update/{id}" is called with "post" request,
             mockMvc.perform(requestBuilder)

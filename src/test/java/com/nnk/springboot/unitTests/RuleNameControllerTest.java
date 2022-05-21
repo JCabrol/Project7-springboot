@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -26,10 +27,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Tag("ruleNameTests")
 @SpringBootTest
+@WithMockUser(username = "user", password = "123456Aa*", authorities = "USER")
 @AutoConfigureMockMvc
 public class RuleNameControllerTest {
 
@@ -115,6 +118,7 @@ public class RuleNameControllerTest {
             when(ruleNameService.createRuleName(any(RuleNameDTO.class))).thenReturn(ruleName);
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/ruleName/validate")
+                    .with(csrf())
                     .param("name", name)
                     .param("description", description)
                     .param("json", json)
@@ -140,6 +144,31 @@ public class RuleNameControllerTest {
             assertEquals(sqlPart, arg.getValue().getSqlPart());
         }
 
+        @DisplayName("GIVEN a ruleNameDTO with information over authorized size" +
+                "WHEN the uri \"/ruleName/validate\" is called " +
+                "THEN there are 2 errors and the page \"add\" is returned.")
+        @Test
+        void validateTooLongInformationTest() throws Exception {
+            //GIVEN
+            // a bidListDTO with information over authorized size
+            RequestBuilder requestBuilder = MockMvcRequestBuilders
+                    .post("/ruleName/validate")
+                    .with(csrf())
+                    .param("name", "name123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890")
+                    .param("description", "description123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+            // WHEN
+            //the uri "/bidList/validate" is called,
+            mockMvc.perform(requestBuilder)
+                    //THEN
+                    // there are 2 errors and the page "add" is returned
+                    .andExpect(status().isOk())
+                    .andExpect(model().attributeExists("ruleName"))
+                    .andExpect(model().hasErrors())
+                    .andExpect(model().attributeErrorCount("ruleName", 2))
+                    .andExpect(view().name("ruleName/add"));
+            //the expected methods have been called with expected arguments
+            verify(ruleNameService, Mockito.times(0)).createRuleName(any(RuleNameDTO.class));
+        }
 
     }
 
@@ -229,6 +258,7 @@ public class RuleNameControllerTest {
             when(ruleNameService.updateRuleName(eq(id), any(RuleNameDTO.class))).thenReturn(ruleName);
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/ruleName/update/{id}", id)
+                    .with(csrf())
                     .param("name", name)
                     .param("description", description)
                     .param("json", json)
@@ -251,6 +281,33 @@ public class RuleNameControllerTest {
             assertEquals(template, arg.getValue().getTemplate());
             assertEquals(sqlStr, arg.getValue().getSqlStr());
             assertEquals(sqlPart, arg.getValue().getSqlPart());
+        }
+
+        @DisplayName("GIVEN too long information" +
+                "WHEN the uri \"/ruleName/update/{id}\" is called with \"post\" request" +
+                "THEN there are 2 errors and the page \"update\" is returned.")
+        @Test
+        void updateRuleNameTooLongInformationTest() throws Exception {
+            //GIVEN
+            // too long information
+            int id = 1;
+            RequestBuilder requestBuilder = MockMvcRequestBuilders
+                    .post("/ruleName/update/{id}", id)
+                    .with(csrf())
+                    .param("name", "name123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890")
+                    .param("description", "description123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+            // WHEN
+            //the uri "/ruleName/update/{id}" is called with "post" request,
+            mockMvc.perform(requestBuilder)
+                    //THEN
+                    // there are 2 errors and the page "update" is returned
+                    .andExpect(status().isOk())
+                    .andExpect(model().attributeExists("ruleName"))
+                    .andExpect(model().hasErrors())
+                    .andExpect(model().attributeErrorCount("ruleName", 2))
+                    .andExpect(view().name("ruleName/update"));
+            //the expected methods have been called with expected arguments
+            verify(ruleNameService, Mockito.times(0)).updateRuleName(anyInt(), any(RuleNameDTO.class));
         }
     }
 

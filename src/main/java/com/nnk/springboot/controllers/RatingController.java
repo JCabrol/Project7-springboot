@@ -44,7 +44,7 @@ public class RatingController {
      */
     @ApiOperation(value = "Displays a form to add rating.")
     @GetMapping("/rating/add")
-    public String addBidForm(Model model) {
+    public String addRatingForm(Model model) {
         RatingDTO ratingDTO = new RatingDTO();
         model.addAttribute(VIEW_ATTRIBUTE_NAME, ratingDTO);
         return "rating/add";
@@ -90,7 +90,7 @@ public class RatingController {
      */
     @ApiOperation(value = "Update a rating by its id.")
     @PostMapping("/rating/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("rating") RatingDTO rating,
+    public String updateRating(@PathVariable("id") Integer id, @Valid @ModelAttribute("rating") RatingDTO rating,
                             BindingResult result, Model model) {
         if (result.hasErrors()) {
             rating.setId(id);
