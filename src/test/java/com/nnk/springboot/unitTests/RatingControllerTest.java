@@ -27,11 +27,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Tag("ratingTests")
 @SpringBootTest
-@WithMockUser(username = "user", password = "123456Aa*", roles = "USER")
+@WithMockUser(username = "user", password = "123456Aa*", authorities = "USER")
 @AutoConfigureMockMvc
 public class RatingControllerTest {
 
@@ -115,6 +116,7 @@ public class RatingControllerTest {
             when(ratingService.createRating(any(RatingDTO.class))).thenReturn(rating);
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/rating/validate")
+                    .with(csrf())
                     .param("moodysRating", moodysRating)
                     .param("sandPRating", sandPRating)
                     .param("fitchRating", fitchRating)
@@ -145,6 +147,7 @@ public class RatingControllerTest {
             // a ratingDTO with information over authorized size
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/rating/validate")
+                    .with(csrf())
                     .param("moodysRating", "moodysRating123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890")
                     .param("sandPRating", "sandPRating123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890")
                     .param("fitchRating", "fitchRating123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
@@ -245,6 +248,7 @@ public class RatingControllerTest {
             when(ratingService.updateRating(eq(id), any(RatingDTO.class))).thenReturn(rating);
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/rating/update/{id}", id)
+                    .with(csrf())
                     .param("moodysRating", moodysRating)
                     .param("sandPRating", sandPRating)
                     .param("fitchRating", fitchRating)
@@ -263,6 +267,34 @@ public class RatingControllerTest {
             assertEquals(sandPRating, arg.getValue().getSandPRating());
             assertEquals(fitchRating, arg.getValue().getFitchRating());
             assertEquals(orderNumber, arg.getValue().getOrderNumber());
+        }
+
+        @DisplayName("GIVEN too long information" +
+                "WHEN the uri \"/rating/update/{id}\" is called with \"post\" request" +
+                "THEN there are 3 errors and the page \"update\" is returned.")
+        @Test
+        void updateRatingTooLongInformationTest() throws Exception {
+            //GIVEN
+            // too long information
+            int id = 1;
+            RequestBuilder requestBuilder = MockMvcRequestBuilders
+                    .post("/rating/update/{id}", id)
+                    .with(csrf())
+                    .param("moodysRating", "moodysRating123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890")
+                    .param("sandPRating", "sandPRating123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890")
+                    .param("fitchRating", "fitchRating123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+            // WHEN
+            //the uri "/rating/update/{id}" is called with "post" request,
+            mockMvc.perform(requestBuilder)
+                    //THEN
+                    // there are 3 errors and the page "update" is returned
+                    .andExpect(status().isOk())
+                    .andExpect(model().attributeExists("rating"))
+                    .andExpect(model().hasErrors())
+                    .andExpect(model().attributeErrorCount("rating", 3))
+                    .andExpect(view().name("rating/update"));
+            //the expected methods have been called with expected arguments
+            verify(ratingService, Mockito.times(0)).updateRating(anyInt(), any(RatingDTO.class));
         }
     }
 

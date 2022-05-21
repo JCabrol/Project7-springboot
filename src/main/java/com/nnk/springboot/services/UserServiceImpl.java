@@ -1,16 +1,15 @@
 package com.nnk.springboot.services;
 
+import com.nnk.springboot.config.SpringSecurityConfig;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.domain.dto.UserDTO;
+import com.nnk.springboot.exceptions.ObjectAlreadyExistingException;
 import com.nnk.springboot.exceptions.ObjectNotFoundException;
 import com.nnk.springboot.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,18 +21,25 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SpringSecurityConfig springSecurityConfig;
+
     /**
-     * Create a new User
+     * Create a new user
      *
      * @param userDTO a UserDTO object containing information to create a new user
-     * @return the User object created
+     * @return the user object created
      */
     @Override
     public User createUser(UserDTO userDTO) {
         log.debug("Function createUser in UserService begin.");
-        User user = new User(userDTO.getUsername(),userDTO.getFullname(), userDTO.getRole());
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setPassword(encoder.encode(userDTO.getPassword()));
+        String userName = userDTO.getUsername();
+        if (userRepository.existsByUsername(userName))
+        {
+            throw new ObjectAlreadyExistingException("The username " + userName + " already exists.");
+        }
+        User user = new User(userDTO.getUsername(), userDTO.getFullname(), userDTO.getRole());
+        user.setPassword(springSecurityConfig.encoder().encode(userDTO.getPassword()));
         user = userRepository.save(user);
         log.info("New user with id number " + user.getId() + " has been created.");
         log.debug("Function createUser in UserService ends without exception.");
@@ -61,10 +67,10 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Get a User
+     * Get a user
      *
-     * @param id the id of the User object researched
-     * @return the User object researched
+     * @param id the id of the user object researched
+     * @return the user object researched
      */
     private User getUser(Integer id) throws ObjectNotFoundException {
         log.debug("Function getUser in UserService begin.");
@@ -79,9 +85,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Get a User
+     * Get a user
      *
-     * @param id the id of the User object researched
+     * @param id the id of the user object researched
      * @return a UserDTO object containing all information to show from the user researched
      */
     @Override
@@ -94,11 +100,11 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Update a User
+     * Update a user
      *
-     * @param id         the id of the User to update
+     * @param id      the id of the user to update
      * @param userDTO a userDTO object containing all information to update
-     * @return the User object updated
+     * @return the user object updated
      */
     @Override
     public User updateUser(Integer id, UserDTO userDTO) throws ObjectNotFoundException {
@@ -107,8 +113,7 @@ public class UserServiceImpl implements UserService {
         user.setFullname(userDTO.getFullname());
         user.setUsername(userDTO.getUsername());
         user.setRole(userDTO.getRole());
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setPassword(encoder.encode(userDTO.getPassword()));
+        user.setPassword(springSecurityConfig.encoder().encode(userDTO.getPassword()));
         user = userRepository.save(user);
         log.info("User with id number " + user.getId() + " has been updated.");
         log.debug("Function updateUser in UserService ends without exception.");
@@ -116,9 +121,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Delete a User from its id
+     * Delete a user from its id
      *
-     * @param id the id of the User object to delete
+     * @param id the id of the user object to delete
      */
     @Override
     public void deleteUser(Integer id) throws ObjectNotFoundException {
@@ -135,8 +140,8 @@ public class UserServiceImpl implements UserService {
     /**
      * Transform user to UserDTO object
      *
-     * @param user the User object to transform to UserDTO object
-     * @return a UserDTO object containing all information to show from the User object
+     * @param user the user object to transform to UserDTO object
+     * @return a UserDTO object containing all information to show from the user object
      */
     private UserDTO transformUserToDTO(User user) {
         log.trace("Function transformUserToDTO in UserService begin.");

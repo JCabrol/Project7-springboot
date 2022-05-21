@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,10 +26,12 @@ import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Tag("tradeTests")
 @SpringBootTest
+@WithMockUser(username = "user", password = "123456Aa*", authorities = "USER")
 @AutoConfigureMockMvc
 public class TradeControllerTest {
 
@@ -111,6 +114,7 @@ public class TradeControllerTest {
             when(tradeService.createTrade(any(TradeDTO.class))).thenReturn(trade);
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/trade/validate")
+                    .with(csrf())
                     .param("account", account)
                     .param("type", type)
                     .param("buyQuantity", String.valueOf(buyQuantity));
@@ -138,7 +142,8 @@ public class TradeControllerTest {
             //GIVEN
             // a tradeDTO without required information
             RequestBuilder requestBuilder = MockMvcRequestBuilders
-                    .post("/trade/validate");
+                    .post("/trade/validate")
+                    .with(csrf());
             // WHEN
             //the uri "/trade/validate" is called,
             mockMvc.perform(requestBuilder)
@@ -162,6 +167,7 @@ public class TradeControllerTest {
             // a tradeDTO with information over authorized size
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/trade/validate")
+                    .with(csrf())
                     .param("account", "account123456789012345678901234567890")
                     .param("type", "type123456789012345678901234567890");
             // WHEN
@@ -240,14 +246,14 @@ public class TradeControllerTest {
 
     @Nested
     @Tag("TradeControllerTests")
-    @DisplayName("updateBid tests:")
-    class UpdateBidTest {
+    @DisplayName("updateTrade tests:")
+    class UpdateTradeTest {
 
         @DisplayName("GIVEN an existing trade and all required information to update" +
                 "WHEN the uri \"/trade/update/{id}\" is called with \"post\" request" +
                 "THEN there is no error, the expected information is sent and the page is correctly redirected.")
         @Test
-        void updateBidTest() throws Exception {
+        void updateTradeTest() throws Exception {
             //GIVEN
             // an existing trade and all required information to update
             String account = "account";
@@ -259,6 +265,7 @@ public class TradeControllerTest {
             when(tradeService.updateTrade(eq(id), any(TradeDTO.class))).thenReturn(trade);
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/trade/update/{id}", id)
+                    .with(csrf())
                     .param("account", account)
                     .param("type", type)
                     .param("buyQuantity", String.valueOf(buyQuantity));
@@ -281,12 +288,13 @@ public class TradeControllerTest {
                 "WHEN the uri \"/trade/update/{id}\" is called with \"post\" request" +
                 "THEN there are 2 errors and the page \"update\" is returned.")
         @Test
-        void updateBidMissingInformationTest() throws Exception {
+        void updateTradeMissingInformationTest() throws Exception {
             //GIVEN
             // missing information
             int id = 1;
             RequestBuilder requestBuilder = MockMvcRequestBuilders
-                    .post("/trade/update/{id}", id);
+                    .post("/trade/update/{id}", id)
+                    .with(csrf());
             // WHEN
             //the uri "/trade/update/{id}" is called with "post" request,
             mockMvc.perform(requestBuilder)
@@ -305,12 +313,13 @@ public class TradeControllerTest {
                 "WHEN the uri \"/trade/update/{id}\" is called with \"post\" request" +
                 "THEN there are 2 errors and the page \"update\" is returned.")
         @Test
-        void updateBidTooLongInformationTest() throws Exception {
+        void updateTradeTooLongInformationTest() throws Exception {
             //GIVEN
             // too long information
             int id = 1;
             RequestBuilder requestBuilder = MockMvcRequestBuilders
                     .post("/trade/update/{id}", id)
+                    .with(csrf())
                     .param("account", "account012345678901234567890123456789")
                     .param("type", "type012345678901234567890123456789");
             // WHEN

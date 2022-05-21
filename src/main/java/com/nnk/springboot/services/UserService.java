@@ -9,10 +9,10 @@ import java.util.List;
 public interface UserService {
 
     /**
-     * Create a new User
+     * Create a new user
      *
      * @param userDTO a UserDTO object containing information to create a new user
-     * @return the User object created
+     * @return the user object created
      */
     User createUser(UserDTO userDTO);
 
@@ -24,26 +24,26 @@ public interface UserService {
     List<UserDTO> getAllUser();
 
     /**
-     * Get a User
+     * Get a user
      *
-     * @param id the id of the User object researched
+     * @param id the id of the user object researched
      * @return a UserDTO object containing all information to show from the user researched
      */
     UserDTO getUserDTO(Integer id) throws ObjectNotFoundException;
 
     /**
-     * Update a User
+     * Update a user
      *
-     * @param id the id of the User to update
+     * @param id the id of the user to update
      * @param userDTO a userDTO object containing all information to update
-     * @return the User object updated
+     * @return the user object updated
      */
     User updateUser(Integer id, UserDTO userDTO) throws ObjectNotFoundException;
 
     /**
-     * Delete a User from its id
+     * Delete a user from its id
      *
-     * @param id the id of the User object to delete
+     * @param id the id of the user object to delete
      */
     void deleteUser(Integer id) throws ObjectNotFoundException;
 

@@ -44,7 +44,7 @@ public class RuleNameController {
      */
     @ApiOperation(value = "Displays a form to add ruleName.")
     @GetMapping("/ruleName/add")
-    public String addBidForm(Model model) {
+    public String addRuleNameForm(Model model) {
         RuleNameDTO ruleNameDTO = new RuleNameDTO();
         model.addAttribute(VIEW_ATTRIBUTE_NAME, ruleNameDTO);
         return "ruleName/add";
@@ -90,7 +90,7 @@ public class RuleNameController {
      */
     @ApiOperation(value = "Update a ruleName by its id.")
     @PostMapping("/ruleName/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("ruleName") RuleNameDTO ruleName,
+    public String updateRuleName(@PathVariable("id") Integer id, @Valid @ModelAttribute("ruleName") RuleNameDTO ruleName,
                             BindingResult result, Model model) {
         if (result.hasErrors()) {
             ruleName.setId(id);

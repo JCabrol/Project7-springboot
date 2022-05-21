@@ -23,6 +23,7 @@ public class CurvePointController {
 
     private static final String CURVE_POINT_HOME_REDIRECTION = "redirect:/curvePoint/list";
     private static final String VIEW_ATTRIBUTE_NAME = "curvePoint";
+
     /**
      * Read - Get all curvePoints registered in database
      *
@@ -43,7 +44,7 @@ public class CurvePointController {
      */
     @ApiOperation(value = "Displays a form to add curvePoint.")
     @GetMapping("/curvePoint/add")
-    public String addBidForm(Model model) {
+    public String addCurvePointForm(Model model) {
         CurvePointDTO curvePointDTO = new CurvePointDTO();
         model.addAttribute(VIEW_ATTRIBUTE_NAME, curvePointDTO);
         return "curvePoint/add";
@@ -83,13 +84,13 @@ public class CurvePointController {
     /**
      * Update - Update an existing CurvePoint
      *
-     * @param id     - An Integer which is the id of the curvePoint to update
+     * @param id         - An Integer which is the id of the curvePoint to update
      * @param curvePoint - A CurvePointDTO object containing information to update
      * @return the update form if there is any validation error, the curvePoint list page if the curvePoint is correctly updated
      */
     @ApiOperation(value = "Update a curvePoint by its id.")
     @PostMapping("/curvePoint/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("curvePoint") CurvePointDTO curvePoint,
+    public String updateCurvePoint(@PathVariable("id") Integer id, @Valid @ModelAttribute("curvePoint") CurvePointDTO curvePoint,
                             BindingResult result, Model model) {
         if (result.hasErrors()) {
             curvePoint.setId(id);
