@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Tag("bidListTests")
 @SpringBootTest
+@WithMockUser(username = "user", password = "123456Aa*", roles = "USER")
 @ActiveProfiles("test")
 @AutoConfigureMockMvc(addFilters = false)
 @DirtiesContext(classMode = BEFORE_CLASS)
@@ -382,7 +384,7 @@ public class BidListIntegrationTest {
                 "WHEN the uri \"/bidList/delete/{id}\" is called " +
                 "THEN an error page is displayed with expected error message and no bidList have been suppressed.")
         @Test
-        void showUpdateFormNonExistingTest() throws Exception {
+        void deleteBidNonExistingIntegrationTest() throws Exception {
             //GIVEN
             // a non-existing bidList
             RequestBuilder requestBuilder = MockMvcRequestBuilders

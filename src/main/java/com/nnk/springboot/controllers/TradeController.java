@@ -23,6 +23,7 @@ public class TradeController {
 
     private static final String TRADE_HOME_REDIRECTION = "redirect:/trade/list";
     private static final String VIEW_ATTRIBUTE_NAME = "trade";
+
     /**
      * Read - Get all trades registered in database
      *
@@ -83,14 +84,14 @@ public class TradeController {
     /**
      * Update - Update an existing trade
      *
-     * @param id     - An Integer which is the id of the trade to update
+     * @param id    - An Integer which is the id of the trade to update
      * @param trade - A TradeDTO object containing information to update
      * @return the update form if there is any validation error, the trade list page if the trade is correctly updated
      */
     @ApiOperation(value = "Update a trade by its id.")
     @PostMapping("/trade/update/{id}")
     public String updateTrade(@PathVariable("id") Integer id, @Valid @ModelAttribute("trade") TradeDTO trade,
-                            BindingResult result, Model model) {
+                              BindingResult result, Model model) {
         if (result.hasErrors()) {
             trade.setTradeId(id);
             model.addAttribute(VIEW_ATTRIBUTE_NAME, trade);

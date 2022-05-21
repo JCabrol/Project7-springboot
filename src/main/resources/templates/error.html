@@ -7,12 +7,20 @@
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
 </head>
 <body>
-<div class="col-6">
-    <h5>
-        Error <span  th:text="${status}"></span>
-        <br>
-        <span th:text="${message}"></span>
-    </h5>
+<div class="container-fluid align-items-center justify-content-center">
+    <div class="container">
+
+        <header th:insert="navigation.html :: navigationBar"></header>
+
+        <div class="row mt-5">
+            <h3>Error <span th:text="${status}"></span></h3>
+        </div>
+        <div class="row">
+            <p class="error" th:text="${message}">Error</p>
+            <p th:if="${status} == '404'" class="error">Sorry, the researched page doesn't exist.</p>
+        </div>
+
+    </div>
 </div>
 </body>
 </html>

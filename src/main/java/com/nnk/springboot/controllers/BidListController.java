@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,6 +23,7 @@ public class BidListController {
 
     private static final String BID_LIST_HOME_REDIRECTION = "redirect:/bidList/list";
     private static final String VIEW_ATTRIBUTE_NAME = "bidList";
+
     /**
      * Read - Get all bidLists registered in database
      *
@@ -80,7 +84,7 @@ public class BidListController {
     /**
      * Update - Update an existing bidList
      *
-     * @param id     - An Integer which is the id of the bidList to update
+     * @param id      - An Integer which is the id of the bidList to update
      * @param bidList - A BidListDTO object containing information to update
      * @return the update form if there is any validation error, the bidList list page if the bidList is correctly updated
      */

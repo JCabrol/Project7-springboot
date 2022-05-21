@@ -11,11 +11,12 @@ import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 
-@Entity
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "Trade")
 public class Trade {
 

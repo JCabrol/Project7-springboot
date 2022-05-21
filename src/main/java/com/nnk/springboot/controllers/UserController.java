@@ -1,6 +1,7 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.dto.UserDTO;
+import com.nnk.springboot.exceptions.ObjectAlreadyExistingException;
 import com.nnk.springboot.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class UserController {
 
     private static final String USER_HOME_REDIRECTION = "redirect:/user/list";
     private static final String VIEW_ATTRIBUTE_NAME = "user";
+
     /**
      * Read - Get all users registered in database
      *
@@ -62,8 +64,14 @@ public class UserController {
             model.addAttribute(VIEW_ATTRIBUTE_NAME, user);
             return "user/add";
         }
-        userService.createUser(user);
-        return USER_HOME_REDIRECTION;
+        try {
+            userService.createUser(user);
+            return USER_HOME_REDIRECTION;
+        } catch (ObjectAlreadyExistingException ex) {
+            result.rejectValue("username", "403", ex.getMessage());
+            model.addAttribute(VIEW_ATTRIBUTE_NAME, user);
+            return "user/add";
+        }
     }
 
     /**
@@ -83,14 +91,14 @@ public class UserController {
     /**
      * Update - Update an existing user
      *
-     * @param id     - An Integer which is the id of the user to update
+     * @param id   - An Integer which is the id of the user to update
      * @param user - A UserDTO object containing information to update
      * @return the update form if there is any validation error, the user list page if the user is correctly updated
      */
     @ApiOperation(value = "Update a user by its id.")
     @PostMapping("/user/update/{id}")
     public String updateUser(@PathVariable("id") Integer id, @Valid @ModelAttribute("user") UserDTO user,
-                            BindingResult result, Model model) {
+                             BindingResult result, Model model) {
         if (result.hasErrors()) {
             user.setId(id);
             model.addAttribute(VIEW_ATTRIBUTE_NAME, user);
@@ -98,7 +106,7 @@ public class UserController {
         }
         userService.updateUser(id, user);
         return USER_HOME_REDIRECTION;
-    }
+        }
 
     /**
      * Delete - Delete a user
