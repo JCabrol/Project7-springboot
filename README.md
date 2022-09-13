@@ -1,4 +1,13 @@
 # Project7-springboot
+
+A project done as part of my Java application developper training (project n°7).
+
+The main skills acquired with this project were:
+
+* implements an API using good development practices
+
+ Here are the [presentation slideshows]() I made for this project.
+
 spring-boot
 Technical:
 
