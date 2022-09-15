@@ -1,12 +1,14 @@
 # Project7-springboot
 
+A restful API project with Spring Boot, Spring Data JPA and Spring Security.
+
 A project done as part of my Java application developper training (project n°7).
 
 The main skills acquired with this project were:
 
 * implements an API using good development practices
 
- Here are the [presentation slideshows]() I made for this project.
+ Here are the [presentation slideshows](https://github.com/JCabrol/Project7-springboot/blob/master/Cabrol_Justine_2_Presentation_042022.ppsx) I made for this project.
 
 spring-boot
 Technical:
